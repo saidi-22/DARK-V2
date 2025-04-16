@@ -2,7 +2,7 @@
   "name":"DARK MD",
   "description":"Whatsapp bot developed by DARK_TECH",
   "keywords":["bot","node","baileys","whatsapp"],
-  "logo":"https://ibb.co/cKCRJ4qB",
+  "logo":"https://files.catbox.moe/icnssy.PNG",
   "repository":"https://github.com/darkdev-tech/DARK-V2",
   "succes_url":"/",
   "stack":"container",
@@ -49,7 +49,7 @@
     },
     "BOT_MENU_LINKS" : {
       "description":"add one or many link for your bot menu  ; eg : url1,url2,url3.....",
-      "value":"https://ibb.co/cKCRJ4qB",
+      "value":"https://files.catbox.moe/icnssy.PNG",
       "required":false
     },
     "PUBLIC_MODE":
