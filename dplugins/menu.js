@@ -1,87 +1,131 @@
-const util = require('util');
-const fs = require('fs-extra');
-const { ezra } = require(__dirname + "/../fredi/ezra");
-const { format } = require(__dirname + "/../fredi/mesfonctions");
+const fs = require("fs-extra");
 const os = require("os");
 const moment = require("moment-timezone");
-const s = require(__dirname + "/../set");
+const { zokou } = require("../framework/zokou");
+const { format } = require("../framework/mesfonctions");
+const settings = require("../set");
+
 const more = String.fromCharCode(8206);
 const readmore = more.repeat(4001);
 
-ezra({ nomCom: "menu1", categorie: "Menu" }, async (dest, zk, commandeOptions) => {
-    let { ms, repondre, prefixe, nomAuteurMessage, mybotpic } = commandeOptions;
-    let { cm } = require(__dirname + "/../fredi/ezra");
-    let coms = {};
-    let mode = "public";
+zokou(
+  {
+    nomCom: "menu",
+    categorie: "General",
+    reaction: "⚡",
+  },
+  async (dest, zk, options) => {
+    const { ms, repondre, prefixe, nomAuteurMessage, mybotpic } = options;
+    const { cm } = require("../framework/zokou");
 
-    if ((s.MODE).toLowerCase() !== "yes") {
-        mode = "private";
+    // Initial loading
+    const loadingMsg = await zk.sendMessage(dest, { text: "⚡ Loading...\n▰▱▱▱▱▱▱▱▱▱ 10%" }, { quoted: ms });
+    const updateProgress = async (percent) => {
+      const filled = "▰".repeat(Math.floor(percent / 10));
+      const empty = "▱".repeat(10 - Math.floor(percent / 10));
+      await zk.sendMessage(dest, { text: `⚡ Loading...\n${filled}${empty} ${percent}%`, edit: loadingMsg.key }, { quoted: ms });
+    };
+
+    for (const p of [30, 50, 70, 100]) {
+      await new Promise(res => setTimeout(res, 300));
+      await updateProgress(p);
     }
 
-    cm.map((com) => {
-        if (!coms[com.categorie]) {
-            coms[com.categorie] = [];
-        }
-        coms[com.categorie].push(com.nomCom);
+    // Command categorization
+    const categorized = {};
+    cm.forEach(cmd => {
+      if (!categorized[cmd.categorie]) categorized[cmd.categorie] = [];
+      categorized[cmd.categorie].push(cmd.nomCom);
     });
 
-    moment.tz.setDefault('Etc/GMT');
-    const temps = moment().format('HH:mm:ss');
-    const date = moment().format('DD/MM/YYYY');
+    const mode = settings.MODE.toLowerCase() === "yes" ? "public" : "private";
+    const timeNow = moment().tz("Africa/Nairobi").format("HH:mm:ss");
+    const ramUsage = `${format(os.totalmem() - os.freemem())}/${format(os.totalmem())}`;
 
-    let infoMsg = `
-╭━═「 *𝐃𝐀𝐑𝐊-𝐌𝐃 𝐕2}* 」═━❂
-┃⊛╭────••••────➻
-┃⊛│◆ 𝙾𝚠𝚗𝚎𝚛 : ${s.OWNER_NAME}
-┃⊛│◆ 𝙿𝚛𝚎𝚏𝚒𝚡 : [ ${s.PREFIXE} ]
-┃⊛│◆ 𝙼𝚘𝚍𝚎 : *${mode}*
-┃⊛│◆ 𝚁𝚊𝚖  : 𝟴/𝟭𝟯𝟮 𝗚𝗕
-┃⊛│◆ 𝙳𝚊𝚝𝚎  : *${date}*
-┃⊛│◆ 𝙿𝚕𝚊𝚝𝚏𝚘𝚛𝚖 : ${os.platform()}
-┃⊛│◆ 𝙲𝚛𝚎𝚊𝚝𝚘𝚛 : ᴅᴀʀᴋ_ᴛᴇᴄʜ
-┃⊛│◆ 𝙲𝚘𝚖𝚖𝚊𝚗𝚍𝚜 : ${cm.length}
-┃⊛│◆ 𝚃𝚑𝚎𝚖𝚎 : ᴅᴀʀᴋ 😈
-┃⊛└────••••────➻
-╰─━━━━══──══━━━❂\n${readmore}
+    // Menu Header
+    const header = `
+╭━〔 𝐃𝐀𝐑𝐊-𝐌𝐃 𝐕² 〕━⭓
+┃ ✦ Owner: @254107065646
+┃ ✦ Mode: ${mode}
+┃ ✦ Time: ${timeNow} (EAT)
+┃ ✦ RAM: ${ramUsage}
+╰━━━━━━━━━━━━━━━⭓
 `;
 
-    let menuMsg = `𝙳𝙰𝚁𝙺 𝙼𝚍 𝚅² 𝙲𝚖𝚍`;
-    
-    for (const cat in coms) {
-        menuMsg += `
-❁━━〔 *${cat}* 〕━━❁
-╭━━══••══━━••⊷
-║◆┊ `;
-        for (const cmd of coms[cat]) {
-            menuMsg += `          
-║◆┊ ${s.PREFIXE}  *${cmd}*`;    
-        }
-        menuMsg += `
-║◆┊
-╰─━━═••═━━••⊷`;
-    }
-    
-    menuMsg += `
-> 𝙼𝙰𝙳𝙴 𝙱𝚈 𝙳𝙰𝚁𝙺_𝚃𝙴𝙲𝙷\n`;
+    // Command List
+    let menuBody = `✦ Use *${prefixe}help <cmd>* for details\n`;
+    const icons = {
+      General: "⚙",
+      Group: "👥",
+      Mods: "🛡️",
+      Fun: "🎮",
+      Search: "🔎",
+      Logo: "🎨",
+      Utilities: "🛠",
+    };
 
-    try {
-        const senderName = nomAuteurMessage || message.from;  // Use correct variable for sender name
-        await zk.sendMessage(dest, {
-            text: infoMsg + menuMsg,
-            contextInfo: {
-                mentionedJid: [senderName],
-                externalAdReply: {
-                    title: "DARK MD MENU LIST",
-                    body: "Dont worry bro I have more tap to follow",
-                    thumbnailUrl: "https://files.catbox.moe/icnssy.PNG",
-                    sourceUrl: "https://whatsapp.com/channel/0029VarDt9t30LKL1SoYXy26",
-                    mediaType: 1,
-                    renderLargerThumbnail: true
-                }
-            }
-        });
-    } catch (error) {
-        console.error("Menu error: ", error);
-        repondre("🥵🥵 Menu error: " + error);
+    for (const cat in categorized) {
+      const icon = icons[cat] || "✨";
+      menuBody += `\n╭─⊷ ${icon} ${cat.toUpperCase()} ${icon}\n`;
+      categorized[cat].forEach(cmd => {
+        menuBody += `┃ • ${cmd}\n`;
+      });
+      menuBody += `╰───────────────⭓\n`;
     }
-});
+
+    // Footer
+    const footer = `
+╭═〔 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑𝐒 〕═⭓
+┃ @254107065646 (DARK TECH)
+╰═════════════════⭓
+`;
+
+    // Load media
+    const media = mybotpic(); // video/gif/image
+    const mentions = ["254107065646@s.whatsapp.net"];
+
+    // Final Message
+    await zk.sendMessage(dest, {
+      text: "✅ Menu Loaded!",
+      edit: loadingMsg.key,
+    }, { quoted: ms });
+
+    await new Promise(res => setTimeout(res, 500));
+
+    const caption = header + readmore + menuBody + footer;
+
+    if (media.endsWith(".mp4") || media.endsWith(".gif")) {
+      await zk.sendMessage(dest, {
+        video: { url: media },
+        caption,
+        gifPlayback: true,
+        mentions,
+        footer: "✦ DARK-MD V² SYSTEM",
+      }, { quoted: ms });
+    } else if (media.endsWith(".jpg") || media.endsWith(".jpeg") || media.endsWith(".png")) {
+      await zk.sendMessage(dest, {
+        image: { url: media },
+        caption,
+        mentions,
+        footer: "✦ DARK-MD V² SYSTEM",
+      }, { quoted: ms });
+    } else {
+      await zk.sendMessage(dest, { text: caption, mentions }, { quoted: ms });
+    }
+
+    // Send voice note
+    const audioDir = __dirname + "/../𝐝𝐜/";
+    if (fs.existsSync(audioDir)) {
+      const files = fs.readdirSync(audioDir).filter(f => f.endsWith(".mp3"));
+      if (files.length > 0) {
+        const randomFile = files[Math.floor(Math.random() * files.length)];
+        const filePath = audioDir + randomFile;
+        await zk.sendMessage(dest, {
+          audio: { url: filePath },
+          mimetype: "audio/mpeg",
+          ptt: true,
+        }, { quoted: ms });
+      }
+    }
+  }
+);
