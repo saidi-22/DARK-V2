@@ -1,115 +1,87 @@
-const util = require("util");
-const fs = require("fs-extra");
+const util = require('util');
+const fs = require('fs-extra');
+const { ezra } = require(__dirname + "/../fredi/ezra");
+const { format } = require(__dirname + "/../fredi/mesfonctions");
 const os = require("os");
 const moment = require("moment-timezone");
-const { zokou } = require(__dirname + "/../framework/zokou");
-const { format } = require(__dirname + "/../framework/mesfonctions");
 const s = require(__dirname + "/../set");
+const more = String.fromCharCode(8206);
+const readmore = more.repeat(4001);
 
-zokou(
-  {
-    nomCom: "menu",
-    categorie: "General",
-    reaction: "⚡",
-  },
-  async (dest, zk, commandeOptions) => {
-    const { ms, repondre, prefixe, nomAuteurMessage, mybotpic } = commandeOptions;
-    const { cm } = require(__dirname + "/../framework/zokou");
+ezra({ nomCom: "menu1", categorie: "Menu" }, async (dest, zk, commandeOptions) => {
+    let { ms, repondre, prefixe, nomAuteurMessage, mybotpic } = commandeOptions;
+    let { cm } = require(__dirname + "/../fredi/ezra");
+    let coms = {};
+    let mode = "public";
 
-    // Loading effect
-    const loadStages = [
-      "▰▱▱▱▱▱▱▱▱▱ 10% ⏳",
-      "▰▰▰▱▱▱▱▱▱▱ 30% ⚙️",
-      "▰▰▰▰▰▱▱▱▱▱ 50% 🔄",
-      "▰▰▰▰▰▰▰▱▱▱ 70% ✨",
-      "▰▰▰▰▰▰▰▰▰▰ 100% ✅",
-    ];
-
-    const loadingMsg = await zk.sendMessage(dest, { text: `『 𝐃𝐀𝐑𝐊-𝐌𝐃 𝐌𝐄𝐍𝐔 』\nLoading...\n${loadStages[0]}` }, { quoted: ms });
-
-    for (let i = 1; i < loadStages.length; i++) {
-      await new Promise((r) => setTimeout(r, 400));
-      await zk.sendMessage(dest, {
-        text: `『 𝐃𝐀𝐑𝐊-𝐌𝐃 𝐌𝐄𝐍𝐔 』\nLoading...\n${loadStages[i]}`,
-        edit: loadingMsg.key,
-      }, { quoted: ms });
+    if ((s.MODE).toLowerCase() !== "yes") {
+        mode = "private";
     }
 
-    moment.tz.setDefault("Africa/Nairobi");
-    const time = moment().format("HH:mm:ss");
-    const mode = s.MODE.toLowerCase() === "yes" ? "Private" : "Public";
-
-    // Group commands by category
-    let coms = {};
-    cm.map((c) => {
-      if (!coms[c.categorie]) coms[c.categorie] = [];
-      coms[c.categorie].push(c.nomCom);
+    cm.map((com) => {
+        if (!coms[com.categorie]) {
+            coms[com.categorie] = [];
+        }
+        coms[com.categorie].push(com.nomCom);
     });
 
-    const info = `
-┌─「 *DARK-MD V² INFO* 」
-│ 🧑‍💻 *Owner:* @254107065646
-│ ⚙️ *Mode:* ${mode}
-│ ⏰ *Time:* ${time} (EAT)
-│ 📊 *RAM:* ${format(os.totalmem() - os.freemem())} / ${format(os.totalmem())}
-└───────────────────────`;
+    moment.tz.setDefault('Etc/GMT');
+    const temps = moment().format('HH:mm:ss');
+    const date = moment().format('DD/MM/YYYY');
 
-    const styles = {
-      General: "🌟", Group: "👥", Fun: "🎭", Mods: "🛡️",
-      Search: "🔍", Logo: "🎨", Utilities: "🛠", AI: "🤖"
-    };
+    let infoMsg = `
+╭━═「 *𝐃𝐀𝐑𝐊-𝐌𝐃 𝐕2}* 」═━❂
+┃⊛╭────••••────➻
+┃⊛│◆ 𝙾𝚠𝚗𝚎𝚛 : ${s.OWNER_NAME}
+┃⊛│◆ 𝙿𝚛𝚎𝚏𝚒𝚡 : [ ${s.PREFIXE} ]
+┃⊛│◆ 𝙼𝚘𝚍𝚎 : *${mode}*
+┃⊛│◆ 𝚁𝚊𝚖  : 𝟴/𝟭𝟯𝟮 𝗚𝗕
+┃⊛│◆ 𝙳𝚊𝚝𝚎  : *${date}*
+┃⊛│◆ 𝙿𝚕𝚊𝚝𝚏𝚘𝚛𝚖 : ${os.platform()}
+┃⊛│◆ 𝙲𝚛𝚎𝚊𝚝𝚘𝚛 : ᴅᴀʀᴋ_ᴛᴇᴄʜ
+┃⊛│◆ 𝙲𝚘𝚖𝚖𝚊𝚗𝚍𝚜 : ${cm.length}
+┃⊛│◆ 𝚃𝚑𝚎𝚖𝚎 : ᴅᴀʀᴋ 😈
+┃⊛└────••••────➻
+╰─━━━━══──══━━━❂\n${readmore}
+`;
 
-    let menuText = `\n╭─〔 ⚡ *COMMANDS MENU* ⚡ 〕─╮\n│ Prefix: *${prefixe}*\n│ Use *${prefixe}help <cmd>* for help\n│\n`;
-
+    let menuMsg = `𝙳𝙰𝚁𝙺 𝙼𝚍 𝚅² 𝙲𝚖𝚍`;
+    
     for (const cat in coms) {
-      const icon = styles[cat] || "✨";
-      menuText += `│ ${icon} *${cat.toUpperCase()}*\n`;
-      coms[cat].forEach(cmd => {
-        menuText += `│   ╰─ ${prefixe}${cmd}\n`;
-      });
-    }
-
-    menuText += "╰─────────────────────────╯";
-
-    const imageOrVideo = mybotpic();
-    const mentions = ["254107065646@s.whatsapp.net"];
-
-    await new Promise((r) => setTimeout(r, 400));
-
-    if (imageOrVideo.match(/\.(mp4|gif)$/i)) {
-      await zk.sendMessage(dest, {
-        video: { url: imageOrVideo },
-        caption: info + "\n" + menuText,
-        gifPlayback: true,
-        mentions,
-      }, { quoted: ms });
-    } else if (imageOrVideo.match(/\.(jpg|jpeg|png)$/i)) {
-      await zk.sendMessage(dest, {
-        image: { url: imageOrVideo },
-        caption: info + "\n" + menuText,
-        mentions,
-      }, { quoted: ms });
-    } else {
-      await zk.sendMessage(dest, {
-        text: info + "\n" + menuText,
-        mentions,
-      }, { quoted: ms });
-    }
-
-    // Random voice note
-    const voiceDir = __dirname + "/../voices/";
-    if (fs.existsSync(voiceDir)) {
-      const voices = fs.readdirSync(voiceDir).filter(f => f.endsWith(".mp3"));
-      if (voices.length) {
-        const voice = voiceDir + voices[Math.floor(Math.random() * voices.length)];
-        if (fs.existsSync(voice)) {
-          await zk.sendMessage(dest, {
-            audio: { url: voice },
-            mimetype: "audio/mpeg",
-            ptt: true,
-          }, { quoted: ms });
+        menuMsg += `
+❁━━〔 *${cat}* 〕━━❁
+╭━━══••══━━••⊷
+║◆┊ `;
+        for (const cmd of coms[cat]) {
+            menuMsg += `          
+║◆┊ ${s.PREFIXE}  *${cmd}*`;    
         }
-      }
+        menuMsg += `
+║◆┊
+╰─━━═••═━━••⊷`;
     }
-  }
-);
+    
+    menuMsg += `
+> 𝙼𝙰𝙳𝙴 𝙱𝚈 𝙳𝙰𝚁𝙺_𝚃𝙴𝙲𝙷\n`;
+
+    try {
+        const senderName = nomAuteurMessage || message.from;  // Use correct variable for sender name
+        await zk.sendMessage(dest, {
+            text: infoMsg + menuMsg,
+            contextInfo: {
+                mentionedJid: [senderName],
+                externalAdReply: {
+                    title: "DARK MD MENU LIST",
+                    body: "Dont worry bro I have more tap to follow",
+                    thumbnailUrl: "https://files.catbox.moe/icnssy.PNG",
+                    sourceUrl: "https://whatsapp.com/channel/0029VarDt9t30LKL1SoYXy26",
+                    mediaType: 1,
+                    renderLargerThumbnail: true
+                }
+            }
+        });
+    } catch (error) {
+        console.error("Menu error: ", error);
+        repondre("🥵🥵 Menu error: " + error);
+    }
+});
