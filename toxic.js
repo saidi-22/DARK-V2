@@ -955,7 +955,7 @@ zk.ev.on('group-participants.update', async (group) => {
                 let cmsg =`      BOT RUNNING
                 ⁠              
 > 𝑫𝑬𝑽   :
-𝗙𝗔𝗥𝗞 𝗧𝗘𝗖𝗛
+𝗗𝗔𝗥𝗞 𝗧𝗘𝗖𝗛
 > 𝑩𝑶𝑻   : 
 𝗗𝗔𝗥𝗞-𝗠𝗗
 ⁠⁠`;
