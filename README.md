@@ -22,7 +22,26 @@
 - 💥 Stylish & Responsive Menu System
 
 ---
-<h4 align="left">1. 𝐇𝐄𝐑𝐎𝐊𝐔</h4>
-<p align="left">
-<a href='https://dashboard.heroku.com/new?template=https://github.com/darkdev-tech/DARK-V2' target="_blank"><img alt='Heroku' src='https://img.shields.io/badge/-Heroku%20Deploy-purple?style=for-the-badge&logo=heroku&logoColor=white'/></a>
-</p>
+# 1. Fork the repo
+   
+  <br>
+<a href='https://gitHub.com/darkdev-tech/DARK-V2/fork' target="_blank"><img alt='Fork repo' src='https://img.shields.io/badge/Fork Repo-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=black&color=black'/></a>
+
+
+# 2. Get session id by Pairing Code
+  
+   <br>
+<a href='https://dark-pair-code.onrender.com' target="_blank"><img alt='SESSION ID' src='https://img.shields.io/badge/Session_id-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=black&color=black'/></a>
+
+
+#### DEPLOY TO HEROKU 
+
+# 1. If You don't have a account in Heroku. Create a account.
+    
+  <br>
+<a href='https://signup.heroku.com/' target="_blank"><img alt='Heroku' src='https://img.shields.io/badge/-Create-black?style=for-the-badge&logo=heroku&logoColor=white'/></a>
+
+# 2. Now Deploy
+    
+  <br>
+<a href='https://dashboard.heroku.com/new?template=https://gitHub.com/darkdev-tech/DARK-V2' target="_blank"><img alt='DEPLOY' src='https://img.shields.io/badge/-DEPLOY-black?style=for-the-badge&logo=heroku&logoColor=white'/></a>
