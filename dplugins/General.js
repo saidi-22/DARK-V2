@@ -128,7 +128,7 @@ zokou({ nomCom: "support", categorie: "General", reaction: "🔗" }, async (dest
 https://whatsapp.com/channel/0029VarDt9t30LKL1SoYXy26
 
 
-╚════◇ *𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧* ◇════╝
+╚════◇ *𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 𝐝𝐚𝐫𝐤_𝐭𝐞𝐜𝐡* ◇════╝
     `;
 
     await repondre(supportMessage);
