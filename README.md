@@ -63,3 +63,7 @@
 # 4. DEPLOY ON REPLIT
 
 [![Run on Replit](https://img.shields.io/badge/Run%20on-Replit-1f1f1f?style=for-the-badge&logo=replit&logoColor=white)](https://replit.com/github/darkdev-tech/DARK-V2)
+
+[![WhatsApp Channel](https://img.shields.io/badge/Join%20Our%20WhatsApp%20Channel-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://whatsapp.com/channel/0029VarDt9t30LKL1SoYXy26)
+
+[![Contact Dev](https://img.shields.io/badge/Contact%20Dev%20on-WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/254107065646)
