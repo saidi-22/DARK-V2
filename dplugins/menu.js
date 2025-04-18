@@ -3,38 +3,29 @@ const fs = require('fs-extra');
 const { zokou } = require(__dirname + "/../framework/zokou");
 const { format } = require(__dirname + "/../framework/mesfonctions");
 const os = require("os");
-const conf = require(__dirname + "/../set");
-const moment = require("moment-timezone");
 const s = require(__dirname + "/../set");
-const more = String.fromCharCode(8206)
-const readmore = more.repeat(4001)
+const moment = require("moment-timezone");
+const more = String.fromCharCode(8206);
+const readmore = more.repeat(4001);
 
 zokou({ nomCom: "menu", categorie: "General" }, async (dest, zk, commandeOptions) => {
-    let { ms, repondre ,prefixe,nomAuteurMessage,mybotpic} = commandeOptions;
-    let { cm } = require(__dirname + "/../framework//zokou");
-    var coms = {};
-    var mode = "public";
-    
-    if ((s.MODE).toLocaleLowerCase() != "yes") {
-        mode = "private";
-    }
+    let { ms, repondre, prefixe, nomAuteurMessage } = commandeOptions;
+    let { cm } = require(__dirname + "/../framework/zokou");
 
+    let coms = {};
+    let mode = (s.MODE.toLowerCase() === "yes") ? "public" : "private";
 
-    
-
-    cm.map(async (com, index) => {
+    for (const com of cm) {
         if (!coms[com.categorie])
             coms[com.categorie] = [];
         coms[com.categorie].push(com.nomCom);
-    });
+    }
 
-    moment.tz.setDefault ("Africa/nairobi");
+    moment.tz.setDefault("Africa/Nairobi");
+    const temps = moment().format('HH:mm:ss');
+    const date = moment().format('DD/MM/YYYY');
 
-// Créer une date et une heure en GMT
-const temps = moment().format('HH:mm:ss');
-const date = moment().format('DD/MM/YYYY');
-
-  let infoMsg =  `
+    let infoMsg = `
 ╭━━━☢︎︎*☆ 𝐃𝐀𝐑𝐊 𝐌𝐃 𝐕2 ☆*☢︎︎━━━❍
 ┃❍╭──────────────߷
 ┃❍│▸  *ᴅᴀᴛᴇ*: ${date}
@@ -44,114 +35,59 @@ const date = moment().format('DD/MM/YYYY');
 ┃❍┃▸  *ᴘʟᴜɢɪɴs* : ${cm.length}
 ┃❍│▸  *ʀᴜɴɴɪɴɢ ᴏɴ* : ${os.platform()}
 ┃❍│▸  *ᴏᴡɴᴇʀ* :  ${s.OWNER_NAME}
-┃❍│▸  *ᴅᴇᴠᴇʟᴏᴘᴇʀ* : ᴄᴏᴏʟ_ᴋɪᴅ ᴛᴇᴄʜ
+┃❍│▸  *ᴅᴇᴠᴇʟᴏᴘᴇʀ* : 𝑫𝑨𝑹𝑲 𝑻𝑬𝑪𝑯
 ┃❍│▸  *ᴛɪᴍᴇᴢᴏɴᴇ* : ${s.TZ}
 ┃❍╰───────────────߷
 ╰━━━━━━━━━━━━━━━❍
-☆𝙳𝙰𝚁𝙺 𝙼𝙳 𝚅2 𝙱𝙾𝚃☆\n${readmore}`;
-    
-    
-let menuMsg = `
+☆𝙳𝙰𝚁𝙆 𝙼𝙳 𝚅2 𝙱𝙾𝚃☆\n${readmore}`;
 
- *𝙳𝙰𝚁𝙺 𝙼𝙳 𝚅2 𝙲𝙾𝙼𝙼𝙰𝙽𝙳𝚂*`;
+    let menuMsg = `\n*𝙳𝙰𝚁𝙺 𝙼𝙳 𝚅2 𝙲𝙾𝙼𝙼𝙰𝙽𝙳𝚂*`;
 
     for (const cat in coms) {
-        menuMsg += `╭──────❍ *${cat}* ❍─────❍︎`;
+        menuMsg += `
+
+╭──────❍ *${cat}* ❍─────❍︎`;
         for (const cmd of coms[cat]) {
             menuMsg += `
 │➪│ ${cmd}`;
         }
         menuMsg += `
-╰───────────❍\n`
+╰───────────❍`;
     }
 
-    menuMsg += `> 𝗗𝗔𝗥𝗞-𝗠𝗗 𝗩2 𝗗𝗘𝗩𝗘𝗟𝗢𝗣𝗘𝗗 𝗕𝗬 𝗧𝗛𝗘 𝗕𝗘𝗦𝗧 
-`;
+    menuMsg += `
 
-   var lien = mybotpic();
+> 𝗗𝗔𝗥𝗞-𝗠𝗗 𝗩2 𝗗𝗘𝗩𝗘𝗟𝗢𝗣𝗘𝗗 𝗕𝗬 𝗧𝗛𝗘 𝗕𝗘𝗦𝗧`;
 
-   if (lien.match(/\.(mp4|gif)$/i)) {
-    try {
-        zk.sendMessage(dest, {
-      text: infoMsg + menuMsg,
-      contextInfo: {
-          forwardingScore: 999,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363290715861418@newsletter',
-              newsletterName: '☆𝗗𝗔𝗥𝗞 𝗠𝗗☆',
-              serverMessageId: 143},
+    const thumbUrl = "https://files.catbox.moe/icnssy.PNG";
+    const channelLink = "https://whatsapp.com/channel/0029VarDt9t30LKL1SoYXy26";
+
+    const contextMeta = {
+        forwardingScore: 999,
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+            newsletterJid: '120363290715861418@newsletter',
+            newsletterName: '☆𝗗𝗔𝗥𝗞 𝗠𝗗☆',
+            serverMessageId: 143
+        },
         externalAdReply: {
-          title: "𝗗𝗔𝗥𝗞_𝗧𝗘𝗖𝗛 𝗣𝗥𝗢𝗝𝗘𝗖𝗧𝗦",
-          body: "Follow my channel for more updates",
-          thumbnailUrl: "https://files.catbox.moe/icnssy.PNG",
-          sourceUrl: conf.GURL,
-          mediaType: 1,
+            title: "𝗝𝗢𝗜𝗡 𝗠𝗬 𝗖𝗛𝗔𝗡𝗡𝗘𝗟",
+            body: "Get updates and exclusive tools",
+            thumbnailUrl: thumbUrl,
+            sourceUrl: channelLink,
+            mediaType: 1,
             renderLargerThumbnail: true,
-
-          showAdAttribution: false
+            showAdAttribution: false
         }
-      }
-    }, { quoted: ms });
-    }
-    catch (e) {
-        console.log("🥵🥵 Menu erreur " + e);
-        repondre("🥵🥵 Menu erreur " + e);
-    }
-} 
-// Vérification pour .jpeg ou .png
-else if (lien.match(/\.(jpeg|png|jpg)$/i)) {
+    };
+
     try {
-        zk.sendMessage(dest, {
-      text: infoMsg + menuMsg,
-      contextInfo: {
-          forwardingScore: 999,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363290715861418@newsletter',
-              newsletterName: '☆𝗗𝗔𝗥𝗞 𝗠𝗗☆',
-              serverMessageId: 143},
-        externalAdReply: {
-          title: "𝗗𝗔𝗥𝗞_𝗧𝗘𝗖𝗛 𝗣𝗥𝗢𝗝𝗘𝗖𝗧𝗦",
-          body: "Follow my channel for more updates",
-          thumbnailUrl: "https://files.catbox.moe/icnssy.PNG",
-          sourceUrl: conf.GURL,
-          mediaType: 1,
-            renderLargerThumbnail: true,
-
-          showAdAttribution: false
-        }
-      }
-    }, { quoted: ms });
-      }
-    catch (e) {
-        console.log("🥵🥵 Menu erreur " + e);
-        repondre("🥵🥵 Menu erreur " + e);
+        await zk.sendMessage(dest, {
+            text: infoMsg + menuMsg,
+            contextInfo: contextMeta
+        }, { quoted: ms });
+    } catch (e) {
+        console.log("🥵 Menu error: " + e);
+        repondre("🥵 Menu error: " + e);
     }
-} 
-else {
-    zk.sendMessage(dest, {
-      text: infoMsg + menuMsg,
-      contextInfo: {
-          forwardingScore: 999,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363290715861418@newsletter',
-              newsletterName: '☆𝗗𝗔𝗥𝗞 𝗠𝗗☆',
-              serverMessageId: 143},
-        externalAdReply: {
-          title: "𝗗𝗔𝗥𝗞_𝗧𝗘𝗖𝗛 𝗣𝗥𝗢𝗝𝗘𝗖𝗧𝗦",
-          body: "Follow my channel for more updates",
-          thumbnailUrl: "https://files.catbox.moe/icnssy.PNG",
-          sourceUrl: conf.GURL,
-          mediaType: 1,
-            renderLargerThumbnail: true
-
-
-        }
-      }
-    }, { quoted: ms });
-    
-}
-
 });
