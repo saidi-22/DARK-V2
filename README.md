@@ -71,7 +71,7 @@ Thanks to these awesome people for helping build and improve DARK V2:
 | Name / Username | GitHub Profile |
 |------------------|----------------|
 | DarkDev          | [@darkdev-tech](https://github.com/darkdev-tech) |
-| YourNameHere     | [@darkdev-tech](https://github.com/darkdev-tech) |
+| JAYDEN     | [@darkdev-tech] |
 
 Want to contribute? Fork the repo and submit a pull request!
 
