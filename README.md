@@ -64,6 +64,22 @@
 
 [![Run on Replit](https://img.shields.io/badge/Run%20on-Replit-1f1f1f?style=for-the-badge&logo=replit&logoColor=white)](https://replit.com/github/darkdev-tech/DARK-V2)
 
+## 👥 Contributors
+
+Thanks to these awesome people for helping build and improve DARK V2:
+
+| Name / Username | GitHub Profile |
+|------------------|----------------|
+| DarkDev          | [@darkdev-tech](https://github.com/darkdev-tech) |
+| YourNameHere     | [@your-github](https://github.com/your-github) |
+
+Want to contribute? Fork the repo and submit a pull request!
+
+[![Contributors](https://contrib.rocks/image?repo=darkdev-tech/DARK-V2)](https://github.com/darkdev-tech/DARK-V2/graphs/contributors)
+
+
+
+
 [![WhatsApp Channel](https://img.shields.io/badge/Join%20Our%20WhatsApp%20Channel-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://whatsapp.com/channel/0029VarDt9t30LKL1SoYXy26)
 
 [![Contact Dev](https://img.shields.io/badge/Contact%20Dev%20on-WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/254107065646)
