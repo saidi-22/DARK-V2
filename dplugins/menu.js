@@ -1,131 +1,157 @@
-const fs = require("fs-extra");
+const util = require('util');
+const fs = require('fs-extra');
+const { zokou } = require(__dirname + "/../framework/zokou");
+const { format } = require(__dirname + "/../framework/mesfonctions");
 const os = require("os");
+const conf = require(__dirname + "/../set");
 const moment = require("moment-timezone");
-const { zokou } = require("../framework/zokou");
-const { format } = require("../framework/mesfonctions");
-const settings = require("../set");
+const s = require(__dirname + "/../set");
+const more = String.fromCharCode(8206)
+const readmore = more.repeat(4001)
 
-const more = String.fromCharCode(8206);
-const readmore = more.repeat(4001);
-
-zokou(
-  {
-    nomCom: "menu",
-    categorie: "General",
-    reaction: "⚡",
-  },
-  async (dest, zk, options) => {
-    const { ms, repondre, prefixe, nomAuteurMessage, mybotpic } = options;
-    const { cm } = require("../framework/zokou");
-
-    // Initial loading
-    const loadingMsg = await zk.sendMessage(dest, { text: "⚡ Loading...\n▰▱▱▱▱▱▱▱▱▱ 10%" }, { quoted: ms });
-    const updateProgress = async (percent) => {
-      const filled = "▰".repeat(Math.floor(percent / 10));
-      const empty = "▱".repeat(10 - Math.floor(percent / 10));
-      await zk.sendMessage(dest, { text: `⚡ Loading...\n${filled}${empty} ${percent}%`, edit: loadingMsg.key }, { quoted: ms });
-    };
-
-    for (const p of [30, 50, 70, 100]) {
-      await new Promise(res => setTimeout(res, 300));
-      await updateProgress(p);
+zokou({ nomCom: "menu", categorie: "General" }, async (dest, zk, commandeOptions) => {
+    let { ms, repondre ,prefixe,nomAuteurMessage,mybotpic} = commandeOptions;
+    let { cm } = require(__dirname + "/../framework//zokou");
+    var coms = {};
+    var mode = "public";
+    
+    if ((s.MODE).toLocaleLowerCase() != "yes") {
+        mode = "private";
     }
 
-    // Command categorization
-    const categorized = {};
-    cm.forEach(cmd => {
-      if (!categorized[cmd.categorie]) categorized[cmd.categorie] = [];
-      categorized[cmd.categorie].push(cmd.nomCom);
+
+    
+
+    cm.map(async (com, index) => {
+        if (!coms[com.categorie])
+            coms[com.categorie] = [];
+        coms[com.categorie].push(com.nomCom);
     });
 
-    const mode = settings.MODE.toLowerCase() === "yes" ? "public" : "private";
-    const timeNow = moment().tz("Africa/Nairobi").format("HH:mm:ss");
-    const ramUsage = `${format(os.totalmem() - os.freemem())}/${format(os.totalmem())}`;
+    moment.tz.setDefault ("Africa/nairobi");
 
-    // Menu Header
-    const header = `
-╭━〔 𝐃𝐀𝐑𝐊-𝐌𝐃 𝐕² 〕━⭓
-┃ ✦ Owner: @254107065646
-┃ ✦ Mode: ${mode}
-┃ ✦ Time: ${timeNow} (EAT)
-┃ ✦ RAM: ${ramUsage}
-╰━━━━━━━━━━━━━━━⭓
-`;
+// Créer une date et une heure en GMT
+const temps = moment().format('HH:mm:ss');
+const date = moment().format('DD/MM/YYYY');
 
-    // Command List
-    let menuBody = `✦ Use *${prefixe}help <cmd>* for details\n`;
-    const icons = {
-      General: "⚙",
-      Group: "👥",
-      Mods: "🛡️",
-      Fun: "🎮",
-      Search: "🔎",
-      Logo: "🎨",
-      Utilities: "🛠",
-    };
+  let infoMsg =  `
+╭━━━☢︎︎*☆ 𝐃𝐀𝐑𝐊 𝐌𝐃 𝐕2 ☆*☢︎︎━━━❍
+┃❍╭──────────────߷
+┃❍│▸  *ᴅᴀᴛᴇ*: ${date}
+┃❍│▸  *ᴛɪᴍᴇ ɴᴏᴡ*: ${temps}
+┃❍│▸  *ᴘʀᴇғɪx* : [  ${s.PREFIXE}  ]
+┃❍┃▸  *ᴍᴏᴅᴇ* :  ${mode} mode
+┃❍┃▸  *ᴘʟᴜɢɪɴs* : ${cm.length}
+┃❍│▸  *ʀᴜɴɴɪɴɢ ᴏɴ* : ${os.platform()}
+┃❍│▸  *ᴏᴡɴᴇʀ* :  ${s.OWNER_NAME}
+┃❍│▸  *ᴅᴇᴠᴇʟᴏᴘᴇʀ* : ᴄᴏᴏʟ_ᴋɪᴅ ᴛᴇᴄʜ
+┃❍│▸  *ᴛɪᴍᴇᴢᴏɴᴇ* : ${s.TZ}
+┃❍╰───────────────߷
+╰━━━━━━━━━━━━━━━❍
+☆𝙳𝙰𝚁𝙺 𝙼𝙳 𝚅2 𝙱𝙾𝚃☆\n${readmore}`;
+    
+    
+let menuMsg = `
 
-    for (const cat in categorized) {
-      const icon = icons[cat] || "✨";
-      menuBody += `\n╭─⊷ ${icon} ${cat.toUpperCase()} ${icon}\n`;
-      categorized[cat].forEach(cmd => {
-        menuBody += `┃ • ${cmd}\n`;
-      });
-      menuBody += `╰───────────────⭓\n`;
+ *𝙳𝙰𝚁𝙺 𝙼𝙳 𝚅2 𝙲𝙾𝙼𝙼𝙰𝙽𝙳𝚂*`;
+
+    for (const cat in coms) {
+        menuMsg += `╭──────❍ *${cat}* ❍─────❍︎`;
+        for (const cmd of coms[cat]) {
+            menuMsg += `
+│➪│ ${cmd}`;
+        }
+        menuMsg += `
+╰───────────❍\n`
     }
 
-    // Footer
-    const footer = `
-╭═〔 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑𝐒 〕═⭓
-┃ @254107065646 (DARK TECH)
-╰═════════════════⭓
+    menuMsg += `> 𝗗𝗔𝗥𝗞-𝗠𝗗 𝗩2 𝗗𝗘𝗩𝗘𝗟𝗢𝗣𝗘𝗗 𝗕𝗬 𝗧𝗛𝗘 𝗕𝗘𝗦𝗧 
 `;
 
-    // Load media
-    const media = mybotpic(); // video/gif/image
-    const mentions = ["254107065646@s.whatsapp.net"];
+   var lien = mybotpic();
 
-    // Final Message
-    await zk.sendMessage(dest, {
-      text: "✅ Menu Loaded!",
-      edit: loadingMsg.key,
-    }, { quoted: ms });
+   if (lien.match(/\.(mp4|gif)$/i)) {
+    try {
+        zk.sendMessage(dest, {
+      text: infoMsg + menuMsg,
+      contextInfo: {
+          forwardingScore: 999,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+              newsletterJid: '120363290715861418@newsletter',
+              newsletterName: '☆𝗗𝗔𝗥𝗞 𝗠𝗗☆',
+              serverMessageId: 143},
+        externalAdReply: {
+          title: "𝗗𝗔𝗥𝗞_𝗧𝗘𝗖𝗛 𝗣𝗥𝗢𝗝𝗘𝗖𝗧𝗦",
+          body: "Follow my channel for more updates",
+          thumbnailUrl: "https://files.catbox.moe/icnssy.PNG",
+          sourceUrl: conf.GURL,
+          mediaType: 1,
+            renderLargerThumbnail: true,
 
-    await new Promise(res => setTimeout(res, 500));
-
-    const caption = header + readmore + menuBody + footer;
-
-    if (media.endsWith(".mp4") || media.endsWith(".gif")) {
-      await zk.sendMessage(dest, {
-        video: { url: media },
-        caption,
-        gifPlayback: true,
-        mentions,
-        footer: "✦ DARK-MD V² SYSTEM",
-      }, { quoted: ms });
-    } else if (media.endsWith(".jpg") || media.endsWith(".jpeg") || media.endsWith(".png")) {
-      await zk.sendMessage(dest, {
-        image: { url: media },
-        caption,
-        mentions,
-        footer: "✦ DARK-MD V² SYSTEM",
-      }, { quoted: ms });
-    } else {
-      await zk.sendMessage(dest, { text: caption, mentions }, { quoted: ms });
-    }
-
-    // Send voice note
-    const audioDir = __dirname + "/../𝐝𝐜/";
-    if (fs.existsSync(audioDir)) {
-      const files = fs.readdirSync(audioDir).filter(f => f.endsWith(".mp3"));
-      if (files.length > 0) {
-        const randomFile = files[Math.floor(Math.random() * files.length)];
-        const filePath = audioDir + randomFile;
-        await zk.sendMessage(dest, {
-          audio: { url: filePath },
-          mimetype: "audio/mpeg",
-          ptt: true,
-        }, { quoted: ms });
+          showAdAttribution: false
+        }
       }
+    }, { quoted: ms });
     }
-  }
-);
+    catch (e) {
+        console.log("🥵🥵 Menu erreur " + e);
+        repondre("🥵🥵 Menu erreur " + e);
+    }
+} 
+// Vérification pour .jpeg ou .png
+else if (lien.match(/\.(jpeg|png|jpg)$/i)) {
+    try {
+        zk.sendMessage(dest, {
+      text: infoMsg + menuMsg,
+      contextInfo: {
+          forwardingScore: 999,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+              newsletterJid: '120363290715861418@newsletter',
+              newsletterName: '☆𝗗𝗔𝗥𝗞 𝗠𝗗☆',
+              serverMessageId: 143},
+        externalAdReply: {
+          title: "𝗗𝗔𝗥𝗞_𝗧𝗘𝗖𝗛 𝗣𝗥𝗢𝗝𝗘𝗖𝗧𝗦",
+          body: "Follow my channel for more updates",
+          thumbnailUrl: "https://files.catbox.moe/icnssy.PNG",
+          sourceUrl: conf.GURL,
+          mediaType: 1,
+            renderLargerThumbnail: true,
+
+          showAdAttribution: false
+        }
+      }
+    }, { quoted: ms });
+      }
+    catch (e) {
+        console.log("🥵🥵 Menu erreur " + e);
+        repondre("🥵🥵 Menu erreur " + e);
+    }
+} 
+else {
+    zk.sendMessage(dest, {
+      text: infoMsg + menuMsg,
+      contextInfo: {
+          forwardingScore: 999,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+              newsletterJid: '120363290715861418@newsletter',
+              newsletterName: '☆𝗗𝗔𝗥𝗞 𝗠𝗗☆',
+              serverMessageId: 143},
+        externalAdReply: {
+          title: "𝗗𝗔𝗥𝗞_𝗧𝗘𝗖𝗛 𝗣𝗥𝗢𝗝𝗘𝗖𝗧𝗦",
+          body: "Follow my channel for more updates",
+          thumbnailUrl: "https://files.catbox.moe/icnssy.PNG",
+          sourceUrl: conf.GURL,
+          mediaType: 1,
+            renderLargerThumbnail: true
+
+
+        }
+      }
+    }, { quoted: ms });
+    
+}
+
+});
