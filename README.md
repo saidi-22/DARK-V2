@@ -6,10 +6,7 @@
   <img src="https://img.shields.io/github/stars/yourusername/DARK-V2?style=for-the-badge" />
 </p>
 
-<a href="https://git.io/typing-svg">
-  <img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=50&pause=1000&color=red&center=true&width=910&height=100&lines=DARK+V2+BOT+%3BKEEP+USING+OUR+BOT" alt="Typing SVG" />
-</a>
-
+![Release Date](https://readme-typing-svg.demolab.com?font=Roboto&size=50&pause=1000&color=blue&center=true&width=910&height=100&lines=Released+on+16.04.2025)
 
 
 <p align="center">
