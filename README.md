@@ -56,7 +56,10 @@
   [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/darkdev-tech/DARK-V2)
 
 
-# 3 RENDER DEPLOY
+# 3. RENDER DEPLOY
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/darkdev-tech/DARK-V2)
 
 
+# 4. DEPLOY ON REPLIT
+
+[![Run on Replit](https://img.shields.io/badge/Run%20on-Replit-1f1f1f?style=for-the-badge&logo=replit&logoColor=white)](https://replit.com/github/darkdev-tech/DARK-V2)
