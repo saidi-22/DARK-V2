@@ -11,7 +11,7 @@
 </a>
 
 <a href="https://imgbb.com/">
-  <img src="https://i.ibb.co/9kQGvLgb/IMG-20250227-WA0037.jpg" alt="DARK V2 Bot Preview" border="0" style="max-width:100%; border-radius: 12px;">
+  <img src="https://files.catbox.moe/icnssy.PNG" alt="DARK V2 Bot Preview" border="0" style="max-width:100%; border-radius: 12px;">
 </a>
 
 
