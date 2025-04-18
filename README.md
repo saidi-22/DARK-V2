@@ -24,22 +24,19 @@
 ---
 # 1. Fork the repo
    
-  <br>
-<a href='https://gitHub.com/darkdev-tech/DARK-V2/fork' target="_blank"><img alt='Fork repo' src='https://img.shields.io/badge/Fork Repo-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=black&color=black'/></a>
+[![Tap to Fork](https://img.shields.io/badge/Tap%20to-Fork-2ea44f?style=for-the-badge&logo=github)](https://github.com/darkdev-tech/DARK-V2/fork)
 
 
 # 2. Get session id by Pairing Code
   
-   <br>
-<a href='https://dark-pair-code.onrender.com' target="_blank"><img alt='SESSION ID' src='https://img.shields.io/badge/Session_id-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=black&color=black'/></a>
-
+   [![Tap to Pair Session](https://img.shields.io/badge/Tap%20to%20Get%20Session-DARK--V2-blueviolet?style=for-the-badge&logo=whatsapp)](https://dark-pair-code.onrender.com)
 
 #### DEPLOY TO HEROKU 
 
 # 1. If You don't have a account in Heroku. Create a account.
     
-  <br>
-<a href='https://signup.heroku.com/' target="_blank"><img alt='Heroku' src='https://img.shields.io/badge/-Create-black?style=for-the-badge&logo=heroku&logoColor=white'/></a>
+  [![Create a Heroku Account](https://img.shields.io/badge/Create%20Account-Heroku-79589F?logo=heroku&logoColor=white)](https://signup.heroku.com/)
+
 
 # 2. HEROKU DEPLOY 
     
