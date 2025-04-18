@@ -6,8 +6,9 @@
   <img src="https://img.shields.io/github/stars/yourusername/DARK-V2?style=for-the-badge" />
 </p>
 
-![Release Date](https://readme-typing-svg.demolab.com?font=Roboto&size=50&pause=1000&color=blue&center=true&width=910&height=100&lines=Released+on+16.04.2025)
-
+<a href="https://git.io/typing-svg">
+  <img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=50&pause=1000&color=red&center=true&width=910&height=100&lines=DARK+V2+BOT+%3BKEEP+USING+OUR+BOT" alt="Typing SVG" />
+</a>
 
 <p align="center">
   <b>A Stylish, Feature-Rich WhatsApp Bot Built for Power and Performance</b>
@@ -24,9 +25,7 @@
 - ⏱️ XP & Leveling System *(coming soon!)*
 - 💥 Stylish & Responsive Menu System
 
-<a href="https://git.io/typing-svg">
-  <img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=50&pause=1000&color=blue&center=true&width=910&height=100&lines=Released+on+16.04.2025" alt="Typing SVG" />
-</a>
+![Release Date](https://readme-typing-svg.demolab.com?font=Pacifico&size=50&pause=1000&color=FF1493&center=true&width=910&height=100&lines=Released+on+16.04.2025)
 
 ---
 # 1. Fork the repo
