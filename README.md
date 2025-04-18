@@ -41,9 +41,12 @@
   <br>
 <a href='https://signup.heroku.com/' target="_blank"><img alt='Heroku' src='https://img.shields.io/badge/-Create-black?style=for-the-badge&logo=heroku&logoColor=white'/></a>
 
-# 2. Now Deploy
+# 2. HEROKU DEPLOY 
     
   <br>
 <a href='https://dashboard.heroku.com/new?template=https://github.com/darkdev-tech/DARK-V2' target="_blank"><img alt='DEPLOY' src='https://img.shields.io/badge/-DEPLOY-black?style=for-the-badge&logo=heroku&logoColor=white'/></a>
+
+# 3 RENDER DEPLOY
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/darkdev-tech/DARK-V2)
 
 
