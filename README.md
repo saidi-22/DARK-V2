@@ -10,6 +10,13 @@
   <img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=50&pause=1000&color=red&center=true&width=910&height=100&lines=DARK+V2+BOT+%3BKEEP+USING+OUR+BOT" alt="Typing SVG" />
 </a>
 
+<a href="https://imgbb.com/">
+  <img src="https://i.ibb.co/9kQGvLgb/IMG-20250227-WA0037.jpg" alt="DARK V2 Bot Preview" border="0" style="max-width:100%; border-radius: 12px;">
+</a>
+
+
+
+
 <p align="center">
   <b>A Stylish, Feature-Rich WhatsApp Bot Built for Power and Performance</b>
 </p>
